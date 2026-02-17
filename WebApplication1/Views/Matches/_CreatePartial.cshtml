@@ -1,0 +1,64 @@
+@model WebApplication1.Models.ViewModels.MatchCreateVM
+
+<form asp-action="Create" method="post">
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="form-floating">
+                    <select asp-for="TournamentId" asp-items="Model.Tournaments" class="form-select">
+                        <option value="">-- Select Tournament --</option>
+                    </select>
+                    <label asp-for="TournamentId"></label>
+                    <span asp-validation-for="TournamentId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-floating">
+                    <select asp-for="VenueId" asp-items="Model.Venues" class="form-select">
+                        <option value="">-- Select Venue --</option>
+                    </select>
+                    <label asp-for="VenueId"></label>
+                    <span asp-validation-for="VenueId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="MatchDate" class="form-control" placeholder="Match Date" />
+            <label asp-for="MatchDate"></label>
+            <span asp-validation-for="MatchDate" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 mb-3">
+                <div class="form-floating">
+                    <select asp-for="HomeSquadId" asp-items="Model.Squads" class="form-select">
+                        <option value="">-- Home Team --</option>
+                    </select>
+                    <label asp-for="HomeSquadId"></label>
+                </div>
+            </div>
+            
+            <div class="col-md-2 d-flex align-items-center justify-content-center mb-3">
+                <span class="fw-bold text-muted">VS</span>
+            </div>
+
+            <div class="col-md-5 mb-3">
+                <div class="form-floating">
+                    <select asp-for="AwaySquadId" asp-items="Model.Squads" class="form-select">
+                        <option value="">-- Away Team --</option>
+                    </select>
+                    <label asp-for="AwaySquadId"></label>
+                    <span asp-validation-for="AwaySquadId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div asp-validation-summary="All" class="text-danger small"></div>
+    </div>
+
+    <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+        <button type="submit" class="btn btn-success px-4">Schedule Match</button>
+    </div>
+</form>

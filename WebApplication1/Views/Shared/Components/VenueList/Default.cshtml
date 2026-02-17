@@ -1,0 +1,28 @@
+@model IEnumerable<WebApplication1.Models.ViewModels.VenueVM>
+
+<ul class="list-group list-group-flush">
+    @if (!Model.Any())
+    {
+        <li class="list-group-item text-muted text-center"><small>No venues added.</small></li>
+    }
+
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fa fa-location-dot text-danger me-2"></i> @item.Name
+            </div>
+            
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-sm btn-link text-secondary p-0" 
+                        onclick="openSlidePanel('@Url.Action("Edit", "Venues", new { id = item.VenueId })', 'Edit Venue')">
+                    <i class="fa-solid fa-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-link text-danger p-0" 
+                        onclick="deleteItem('@Url.Action("Delete", "Venues", new { id = item.VenueId })')">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </li>
+    }
+</ul>

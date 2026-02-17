@@ -1,0 +1,17 @@
+@model WebApplication1.Models.ViewModels.VenueVM
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="VenueId" />
+
+    <div class="modal-body">
+        <div class="form-floating mb-3">
+            <input asp-for="Name" class="form-control" placeholder="Venue Name" />
+            <label asp-for="Name"></label>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+        <button type="submit" class="btn btn-warning px-4">Update Venue</button>
+    </div>
+</form>

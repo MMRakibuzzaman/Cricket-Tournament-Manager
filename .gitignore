@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.userprefs
+.DS_Store
+Thums.db
+.idea/
+*.sln.iml

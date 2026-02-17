@@ -1,0 +1,31 @@
+@model WebApplication1.Models.ViewModels.TeamSquadCreateVM
+
+<form asp-action="Create" method="post">
+    <div class="modal-body">
+        <div class="alert alert-info small">
+            <i class="fa fa-info-circle"></i> Register a Team to play in a specific Tournament.
+        </div>
+
+        <div class="form-floating mb-3">
+            <select asp-for="TournamentId" asp-items="Model.Tournaments" class="form-select">
+                <option value="">-- Select Tournament --</option>
+            </select>
+            <label asp-for="TournamentId"></label>
+            <span asp-validation-for="TournamentId" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <select asp-for="TeamId" asp-items="Model.Teams" class="form-select">
+                <option value="">-- Select Team --</option>
+            </select>
+            <label asp-for="TeamId"></label>
+            <span asp-validation-for="TeamId" class="text-danger"></span>
+        </div>
+        
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </div>
+    <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+        <button type="submit" class="btn btn-primary px-4">Register Team</button>
+    </div>
+</form>

@@ -1,0 +1,28 @@
+@model IEnumerable<WebApplication1.Models.ViewModels.TournamentVM>
+
+<ul class="list-group list-group-flush">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <span class="fw-bold">@item.Name</span>
+                <div class="small text-muted">@item.StartDate.ToShortDateString()</div>
+            </div>
+            
+            <div class="d-flex align-items-center gap-2">
+                @if (item.Status == "Live") { <span class="badge bg-danger">LIVE</span> }
+                else if (item.Status == "Upcoming") { <span class="badge bg-primary">Upcoming</span> }
+                else { <span class="badge bg-secondary">Done</span> }
+
+                <button class="btn btn-sm btn-link text-secondary p-0" 
+                        onclick="openSlidePanel('@Url.Action("Edit", "Tournaments", new { id = item.TournamentId })', 'Edit Tournament')">
+                    <i class="fa-solid fa-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-link text-danger p-0" 
+                        onclick="deleteItem('@Url.Action("Delete", "Tournaments", new { id = item.TournamentId })')">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </li>
+    }
+</ul>

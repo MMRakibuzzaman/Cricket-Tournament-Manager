@@ -1,0 +1,115 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebApplication1.Data
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="container-fluid py-4">
+        <div class="alert alert-primary d-flex justify-content-between align-items-center shadow-sm mb-4">
+            <div>
+                <h4 class="alert-heading mb-0"><i class="fa-solid fa-user-shield"></i> Manager Dashboard</h4>
+                <p class="mb-0 small">Welcome back, @UserManager.GetUserName(User)!</p>
+            </div>
+            <div>
+                <a asp-controller="Role" asp-action="Index" class="btn btn-sm btn-outline-primary bg-white me-2">Manage Roles</a>
+                <a asp-controller="Role" asp-action="AssignRole" class="btn btn-sm btn-outline-primary bg-white">Assign Users</a>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fa-solid fa-calendar-day me-2"></i> Match Schedule</h5>
+                        <button class="btn btn-light btn-sm text-primary fw-bold"
+                                onclick="openSlidePanel('@Url.Action("Create", "Matches")', 'Schedule New Match')">
+                            <i class="fa-solid fa-plus"></i> Schedule Match
+                        </button>
+                    </div>
+                    <div class="card-body p-0">
+                        @await Component.InvokeAsync("MatchList")
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 fw-bold text-secondary">Tournaments</h6>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill"
+                                onclick="openSlidePanel('@Url.Action("Create", "Tournaments")', 'New Tournament')">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="card-body p-0">@await Component.InvokeAsync("TournamentList")</div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 fw-bold text-secondary">Venues</h6>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill"
+                                onclick="openSlidePanel('@Url.Action("Create", "Venues")', 'Add Venue')">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="card-body p-0">@await Component.InvokeAsync("VenueList")</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold text-dark"><i class="fa-solid fa-users-rectangle"></i> Registered Teams & Rosters</h4>
+
+            <div class="btn-group">
+                <button class="btn btn-success rounded-pill px-4"
+                        onclick="openSlidePanel('@Url.Action("CreateWithRoster", "Teams")', 'Create Team & Roster')">
+                    <i class="fa-solid fa-plus"></i> Register New Team
+                </button>
+                <button class="btn btn-outline-secondary ms-2 rounded-pill"
+                        onclick="openSlidePanel('@Url.Action("Create", "TeamSquads")', 'Link Team to Tournament')">
+                    <i class="fa-solid fa-link"></i> Join Tournament
+                </button>
+            </div>
+        </div>
+
+        @await Component.InvokeAsync("TeamList")
+
+    </div>
+}
+else
+{
+    <div class="p-5 mb-4 bg-dark text-white rounded-3 shadow position-relative overflow-hidden">
+        <div class="container-fluid py-5 position-relative" style="z-index: 2;">
+            <h1 class="display-4 fw-bold">Live Cricket Action</h1>
+            <p class="col-md-8 fs-4">Follow the latest scores, schedules, and team standings for the 2026 Season.</p>
+            <div class="mt-4">
+                <a class="btn btn-primary btn-lg px-4" asp-area="Identity" asp-page="/Account/Login">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login to Manage
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="d-flex align-items-center mb-3 border-bottom pb-2">
+                    <h3 class="mb-0 text-primary"><i class="fa-solid fa-calendar-days me-2"></i> Upcoming Matches</h3>
+                </div>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-0">
+                        @await Component.InvokeAsync("MatchList")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

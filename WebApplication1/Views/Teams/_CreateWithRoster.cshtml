@@ -1,0 +1,120 @@
+﻿@using WebApplication1.Models
+@model WebApplication1.Models.ViewModels.TeamMasterDetailVM
+
+<form asp-action="CreateWithRoster" method="post" enctype="multipart/form-data">
+    <div class="modal-body">
+        <h5 class="mb-3 text-primary border-bottom pb-2">Team Details</h5>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-8">
+                <div class="form-floating">
+                    <input asp-for="Name" class="form-control" placeholder="Team Name" />
+                    <label asp-for="Name"></label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label small text-muted">Upload Logo</label>
+                <input asp-for="LogoFile" class="form-control form-control-sm" type="file" accept="image/*" />
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-floating">
+                    <input asp-for="Revenue" class="form-control" type="number" step="0.01" />
+                    <label asp-for="Revenue"></label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-floating">
+                    <input asp-for="EstablishedDate" class="form-control" type="date" />
+                    <label asp-for="EstablishedDate"></label>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-center">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                    <label class="form-check-label" asp-for="IsActive">Active Team</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0 text-secondary border-bottom pb-2">Player Manager</h5>
+            <button type="button" class="btn btn-sm btn-outline-success" id="btnAddRow">
+                <i class="fa-solid fa-plus"></i> Add Player
+            </button>
+        </div>
+
+        <div class="table-responsive bg-light p-2 rounded border" style="max-height: 300px; overflow-y: auto;">
+            <table class="table table-sm table-borderless mb-0">
+                <thead class="text-muted small">
+                    <tr>
+                        <th style="width: 40%">Full Name</th>
+                        <th style="width: 30%">Role</th>
+                        <th style="width: 25%">Date of Birth</th>
+                        <th style="width: 5%"></th>
+                    </tr>
+                </thead>
+                <tbody id="rosterBody">
+                    @for (int i = 0; i < Model.Players.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input name="Players[@i].FullName" class="form-control form-control-sm" placeholder="Player Name" />
+                            </td>
+                            <td>
+                                <select name="Players[@i].Role" class="form-select form-select-sm" asp-items="Html.GetEnumSelectList<PlayerRole>()"></select>
+                            </td>
+                            <td>
+                                <input name="Players[@i].DateOfBirth" type="date" class="form-control form-control-sm" />
+                            </td>
+                            <td class="text-end">
+                                <button type="button" class="btn btn-link text-danger btn-sm p-0 remove-row">
+                                    <i class="fa-solid fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-footer d-flex justify-content-between mt-2">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+        <button type="submit" class="btn btn-primary px-4">Create Team</button>
+    </div>
+</form>
+
+<script>
+    document.getElementById('btnAddRow').addEventListener('click', function() {
+        var tbody = document.getElementById('rosterBody');
+        var rowCount = tbody.rows.length;
+        var row = tbody.insertRow(-1);
+
+        var cell1 = row.insertCell(0);
+        cell1.innerHTML = `<input name="Players[${rowCount}].FullName" class="form-control form-control-sm" placeholder="Player Name" />`;
+
+        var cell2 = row.insertCell(1);
+        var options = document.querySelector('select[name^="Players"]').innerHTML;
+        cell2.innerHTML = `<select name="Players[${rowCount}].Role" class="form-select form-select-sm">${options}</select>`;
+
+        var cell3 = row.insertCell(2);
+        cell3.innerHTML = `<input name="Players[${rowCount}].DateOfBirth" type="date" class="form-control form-control-sm" />`;
+
+        var cell4 = row.insertCell(3);
+        cell4.className = "text-end";
+        cell4.innerHTML = `<button type="button" class="btn btn-link text-danger btn-sm p-0 remove-row"><i class="fa-solid fa-times"></i></button>`;
+    });
+
+    document.getElementById('rosterBody').addEventListener('click', function(e) {
+        if (e.target.closest('.remove-row')) {
+            var row = e.target.closest('tr');
+            if(document.querySelectorAll('#rosterBody tr').length > 1){
+                 row.remove();
+            } else {
+                row.querySelectorAll('input').forEach(i => i.value = '');
+            }
+        }
+    });
+</script>
